@@ -1,0 +1,13 @@
+---
+  - name: "My first playbook"
+    hosts: localhost
+
+    tasks:
+
+      - name: "test reachability"
+        ping:
+
+      - name: "Install stress-ng"
+        snap:
+          name: stress-ng
+          state: present

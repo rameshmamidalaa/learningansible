@@ -1,0 +1,19 @@
+---
+  - hosts: localhost
+    become: yes
+    name: "Nginx Server Installation"
+    become_user: ramesh
+
+    tasks:
+
+      - name: "Ensure nginx is installed"
+        apt:
+          name: nginx
+          state: present
+
+
+      - name: "Ensure nginx is started now and at boot"
+        service:
+          name: nginx
+          state: started
+          enabled: yes

@@ -1,0 +1,13 @@
+---
+  - name: "My first challenge using playbook"
+    hosts: localhost
+
+    tasks:
+
+      - name: "test reachability"
+        ping:
+
+      - name: "find module"
+        find:
+          path: /home/ramesh/Learning/Technology/Ansible/playbooks/challenges
+          file_type: file
