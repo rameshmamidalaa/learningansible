@@ -1,0 +1,28 @@
+# CREATING A SECRETS VAULT.
+# Note that I have already encrypted the password which is stored under group_vars-->all-->vault iof this folder structure/project.
+# To encrypt the password, use the following cmd: ansible-vault encrypt vault where 'vault' is available under group_vars-->all-->vault iof this folder structure/project.
+# To decrypt the password, user the following cmd: ansible-vault edit vault (It will open in memory instead of writing into disc. Of course due to security constraints.)
+# Example cmd: ansible-playbook -i inventory/hosts_groups_vm vault.yml --ask-vault-pass (when you enter the cmd it prompts for the vault_password as it is encrypted with by giving the following pwd: 123)
+# To remove the password file from the remote systems use the following cmd:  ansible-playbook -i inventory/hosts_groups_vm vault.yml --tags delete --ask-vault-pass
+---
+  - hosts: all
+    tasks:
+      - name: Embed the secure password in a file.
+        template:
+          src: templates/password.j2
+          dest: /tmp/password
+          mode: 0600
+        tags:
+          - create
+      - name: Clean-up the secure password file.
+        file:
+          name: /tmp/password
+          state: absent
+        tags:
+          - delete
+      - name: Debug the password that was encrypted.
+        debug:
+          msg: 'The password is {{password}}'
+        tags:
+          - create
+          - delete
