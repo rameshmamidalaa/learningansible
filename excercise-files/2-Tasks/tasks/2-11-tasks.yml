@@ -1,0 +1,37 @@
+# LOOPING TASKS WITH DICTIONARIES.
+# Hint: Executing the tasks - using loops through dictionary object i.e 'with_dict'.
+# Example cmd to run:
+# $ ansible-playbook -i ./inventory/hosts_groups 2-11-tasks.yml  -e file_state=touch
+# $ ansible-playbook -i ./inventory/hosts_groups 2-11-tasks.yml  -e file_state=absent
+
+---
+  - hosts: all
+    vars:
+      animals:
+        cats:
+          tabby:
+            color: grey
+            persnickityness: high
+          calico:
+            color: orange
+            persnickityness: medium
+        dogs:
+          dobermann:
+            color: black
+            persnickityness: extreme
+          retriever:
+            color: golden
+            persnickityness: low
+    tasks:
+      - name: Iterate over animals object for cats.
+        file:
+          dest: '/tmp/{{item.key}}-{{item.value.color}}'
+          state: '{{file_state}}'
+        with_dict: '{{animals.cats}}'
+
+      - name: Iterate over animals object for dogs.
+        file:
+          dest: '/tmp/{{item.key}}-{{item.value.color}}'
+          state: '{{file_state}}'
+        with_dict: '{{animals.dogs}}'
+        when: 'item.value.persnickityness == "low"'

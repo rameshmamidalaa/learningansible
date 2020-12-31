@@ -1,0 +1,30 @@
+# USING TAGS TO LIMIT PLAY EXECUTION.
+# Example cmd to run:$ ansible-playbook -i ./inventory/hosts_groups 2-2-tasks.yml --tags create-file
+# Example to skip creation and delete the created file:$ ansible-playbook -i ./inventory/hosts_groups 2-2-tasks.yml --skip--tags create-file --tags delete-file
+---
+  - hosts: all
+    tasks:
+      - name: Create a file.
+        file:
+          dest: /tmp/file
+          state: touch
+        tags:
+          - create-file
+
+  - hosts: all:!db2
+    tags:
+      - delete-file
+    tasks:
+      - name: Delete a file.
+        file:
+          dest: /tmp/file
+          state: absent
+
+  - hosts: db2
+    tasks:
+      - name: Delete a file.
+        file:
+          dest: /tmp/file
+          state: absent
+        tags:
+          - delete-file

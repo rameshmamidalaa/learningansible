@@ -1,0 +1,9 @@
+# MANAGING COMPLEX PLAYBOOKS WITH ROLES.
+---
+  - hosts: all
+    vars:
+      user_name: ishika
+      user_state: present
+      ssh_key: ~/.ssh/id_rsa.pub
+    tasks:
+      - include_tasks: tasks/create_user.yml

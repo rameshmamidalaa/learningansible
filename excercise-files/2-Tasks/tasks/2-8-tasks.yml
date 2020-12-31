@@ -1,0 +1,20 @@
+# USING JINJA AND TEMPLATES.
+# This is a simple task to test verifying if the required bacḱup_file is defined or not by using Jinja2 template.
+# Hint: Check on the group_vars & host_vars as it's related to the output of this task.
+# To create a file --> $ ansible-playbook -i ./inventory/hosts_groups 2-8-tasks.yml --tags create
+# To delete a created file --> $ ansible-playbook -i ./inventory/hosts_groups 2-8-tasks.yml --tags delete
+---
+  - hosts: all
+    tasks:
+      - name: Deploy a simple template file.
+        template:
+          src: templates/2-8-template.j2
+          dest: /tmp/2-8-template.txt
+        tags:
+          - create
+      - name: Remove templated file.
+        file:
+          dest: /tmp/2-8-template.txt
+          state: absent
+        tags:
+          - delete

@@ -1,0 +1,37 @@
+# USING JINJA AND TEMPLATES.
+# LOOPING IN TEMPLATES WITH DICTIONARIES.
+# This is a simple task to test verifying if the required dictionary object is defined or not by using Jinja2 template.
+# Hint: Check on the group_vars & host_vars as it's related to the output of this task.
+# To create a file --> $ ansible-playbook -i ./inventory/hosts_groups 2-13-tasks.yml --tags create
+# To delete a created file --> $ ansible-playbook -i ./inventory/hosts_groups 2-13-tasks.yml --tags delete
+---
+  - hosts: all
+    vars:
+      animals:
+        cats:
+          tabby:
+            color: grey
+            persnickityness: high
+          calico:
+            color: orange
+            persnickityness: medium
+        dogs:
+          dobermann:
+            color: black
+            persnickityness: extreme
+          retriever:
+            color: golden
+            persnickityness: low
+    tasks:
+      - name: Deploy a dictionary looping template file.
+        template:
+          src: templates/2-13-template.j2
+          dest: /tmp/2-13-template.txt
+        tags:
+          - create
+      - name: Remove the templated file.
+        file:
+          dest: /tmp/2-13-template.txt
+          state: absent
+        tags:
+          - delete

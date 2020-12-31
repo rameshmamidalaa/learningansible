@@ -1,0 +1,35 @@
+# USING JINJA AND TEMPLATES AND ESPECIALLY FOR COMPILING THE CODE ONLY BY USING '--CHECK command'.
+# LOOPING IN TEMPLATES WITH DICTIONARIES.
+# This task is used to verify if the below written code will compile or not. This can be done by using the following command.
+# $ ansible-playbook -i ./inventory/hosts_groups 2-14-tasks.yml --check
+---
+  - hosts: all
+    vars:
+      animals:
+        cats:
+          tabby:
+            color: grey
+            persnickityness: high
+          calico:
+            color: orange
+            persnickityness: medium
+        dogs:
+          dobermann:
+            color: black
+            persnickityness: extreme
+          retriever:
+            color: golden
+            persnickityness: low
+    tasks:
+      - name: Deploy a dictionary looping template file.
+        template:
+          src: templates/2-13-template.j2
+          dest: /tmp/2-13-template.txt
+        tags:
+          - create
+      - name: Remove the templated file.
+        file:
+          dest: /tmp/2-13-template.txt
+          state: absent
+        tags:
+          - delete

@@ -1,0 +1,19 @@
+# HOSTS FACTS FOR CONDITIONAL EXECUTION.
+# Hint: Executing the tasks - using 'when' condition.
+# Example cmd to run:
+# To create a file --> $ ansible-playbook -i ./inventory/hosts_groups 2-9-tasks.yml -e file_state=touch
+# To delete a file --> $ ansible-playbook -i ./inventory/hosts_groups 2-9-tasks.yml -e file_state=absent
+---
+  - hosts: web
+    tasks:
+      - name: Create a web2 file on web1.
+        file:
+          dest: /tmp/web2-on-web1
+          state: '{{file_state}}'
+        when: hostvars[inventory_hostname]['inventory_hostname'] == 'web1'
+
+      - name: Create a web1 file on web2.
+        file:
+          dest: /tmp/web1-on-web2
+          state: '{{file_state}}'
+        when: inventory_hostname == 'web2'

@@ -1,0 +1,32 @@
+# LOOPING TASKS WITH VARIABLE LISTS.
+# Hint: Executing the tasks - using loops through list object i.e 'with_items' & item.
+# Example cmd to run:
+# $ ansible-playbook -i ./inventory/hosts_groups 2-10-tasks.yml -e pkg_state=latest  -e file_state=touch
+# $ ansible-playbook -i ./inventory/hosts_groups 2-10-tasks.yml -e pkg_state=absent  -e file_state=absent
+---
+  - hosts: all
+    vars:
+      packages: [git,vim,ruby]
+    tasks:
+      - name: Install packages for Debian style OSs.
+        apt:
+          name: '{{item}}'
+          state: '{{pkg_state}}'
+        with_items: '{{packages}}'
+        when: ansible_os_family == "Debian"
+    # So based on the following warning just changed looping style in case of REDHAT.
+    # [DEPRECATION WARNING]: Invoking "yum" only once while using a loop via squash_actions is deprecated. Instead of using a loop to supply multiple items and specifying `name: "{{item}}"`, please use `name:
+    # '{{packages}}'` and remove the loop. This feature will be removed in version 2.11. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+
+      - name: Install packages for RedHat style OSs.
+        yum:
+          name: '{{packages}}'
+          state: '{{pkg_state}}'
+        when: ansible_os_family == "RedHat"
+
+      - name: Create files based on package names.
+        file:
+          dest: /tmp/{{item}}
+          state: '{{file_state}}'
+        with_items: '{{packages}}'
+        when: ansible_os_family == "Debian"

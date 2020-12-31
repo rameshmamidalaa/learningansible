@@ -1,0 +1,19 @@
+# EXECUTING TASKS ON LOCALHOST in two ways as explained in the tasks.
+# Example cmd to run: $ ansible-playbook 2-3-tasks.yml
+---
+  - hosts: localhost
+    tasks:
+      - name: Create a file via ssh connection.
+        file:
+          dest: /tmp/ssh-created
+          state: touch
+
+
+  - hosts: localhost
+    connection: local
+
+    tasks:
+      - name: Create a file via direct local connection.
+        file:
+          dest: /tmp/direct-created
+          state: touch

@@ -1,0 +1,21 @@
+# TASK to create a user.
+---
+  - name: Create a user on remote host.
+    user:
+      name: '{{user_name}}'
+      state: '{{user_state}}'
+      remove: yes
+      shell: /bin/bash
+      groups: user1 # Use available groups in your case.
+      append: yes
+
+  - name: Publish local ssh public key for remote login.
+    authorized_key:
+      user: '{{user_name}}'
+      state: '{{user_state}}'
+      key: "{{ lookup('file', '{{ssh_key}}') }}"
+
+  - name: Add bashrc to include host and user.
+    template:
+      dest: '~{{user_name}}/.bashrc'
+      src: templates/bashrc.j2

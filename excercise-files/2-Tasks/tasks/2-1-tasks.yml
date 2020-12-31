@@ -1,0 +1,37 @@
+# To understand about creating the file in different target servers.
+# Please note that as there are no remote servers in this cases,
+# just used the different loop back IP addresses.
+# DEFINING TASK EXECUTION WITH HOST GROUPS.
+# Example cmd to run:
+# $ ansible-playbook -i ./inventory/hosts_groups 2-1-tasks.yml -e file_state=touch --> To create a file.
+# $ ansible-playbook -i ./inventory/hosts_groups 2-1-tasks.yml -e file_state=absent --> To delete a created file.
+# You may notice, in the above cmd, passing -e i.e. environment variable at runtime to
+# execute it with different state - for ex: touch in case file module or absent - to delete the created file.
+---
+  - hosts: all
+    tasks:
+      - name: Create a file on a remote machines.
+        file:
+          dest: /tmp/file
+          state: '{{file_state}}'
+
+  - hosts: web
+    tasks:
+      - name: Create a file on web machines.
+        file:
+          dest: /tmp/web-file
+          state: '{{file_state}}'
+
+  - hosts: all:!db
+    tasks:
+      - name: Create a file on web machines but not on db machines.
+        file:
+          dest: /tmp/web-not-db-file
+          state: '{{file_state}}'
+
+  - hosts: all:&backup:!web
+    tasks:
+      - name: Create a file on db machines but not on web machines.
+        file:
+          dest: /tmp/backup-file
+          state: '{{file_state}}'

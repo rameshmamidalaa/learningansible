@@ -1,0 +1,22 @@
+# LIMITING PLAYS FROM THE COMMANDLINE.
+# Of course skipping task is not a common operation (which will take lot of time), but if you want to run the portion task.
+# Example cmd to run:
+# To create a file --> $ ansible-playbook -i ./inventory/hosts_groups 2-1-tasks.yml -e file_state=touch
+# To delete a created file --> $ ansible-playbook -i ./inventory/hosts_groups 2-1-tasks.yml -e file_state=absent
+# To run it from specific task onwards: --> $ ansible-playbook -i hosts_groups 2-4-tasks.yml -e file_state=touch --start-at-task='The second task.'
+# Please note that, --start-at-task= 'name of the task'. 'Name of the task' should be matched with the task name, otherwise execution fails.
+---
+  - hosts: all
+    tasks:
+      - name: The first task.
+        file:
+          dest: /tmp/first-task
+          state: '{{file_state}}'
+      - name: The second task.
+        file:
+          dest: /tmp/second-task
+          state: '{{file_state}}'
+      - name: The last task.
+        file:
+          dest: /tmp/last-task
+          state: '{{file_state}}'

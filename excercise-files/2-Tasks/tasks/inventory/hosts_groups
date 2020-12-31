@@ -1,0 +1,17 @@
+#As there are no remote machines, just used the different local loop back IP addresses.
+[all]
+web1  ansible_host=127.0.0.1  ansible_connection=local  deprecation_warnings=false
+web2  ansible_host=127.0.0.2  ansible_connection=local  INTERPRETER_PYTHON=auto_silent
+db1  ansible_host=127.0.0.3  ansible_connection=local
+db2  ansible_host=127.0.0.4  ansible_connection=local
+#A collection of hosts belonging to the 'webservers' group:
+[web]
+web1
+web2
+#A collection of hosts belonging to the 'db' group:
+[db]
+db1
+db2
+#A collection of hosts belonging to the 'backup' group:
+[backup]
+db2
