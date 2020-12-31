@@ -1,4 +1,5 @@
 # MANAGING COMPLEX PLAYBOOKS WITH ROLES.
+# Example cmd: ansible-playbook -i inventory/hosts_groups_vm create_play.yml
 ---
   - hosts: all
     vars:

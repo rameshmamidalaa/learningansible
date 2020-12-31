@@ -1,3 +1,6 @@
+# Role creation using create_user.
+# Example cmd: ansible-playbook -i inventory/hosts_groups_vm create_role.yml
+# To delete the created user: ansible-playbook -i inventory/hosts_groups_vm create_role.yml -e user_state=absent
 ---
   - hosts: all
     tasks:
