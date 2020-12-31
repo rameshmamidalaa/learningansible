@@ -1,0 +1,35 @@
+# IDEMPOTENT "PROTOTYOE" MODEL.
+# Execute the cmd to create and delete the same files.
+# Create: ansible-playbook -i inventory/hosts_groups_vm idempotent.yml --tags create
+# Delete: ansible-playbook -i inventory/hosts_groups_vm idempotent.yml --tags delete
+---
+  - hosts: web1
+    tasks:
+      - name: An idempotent create command.
+        copy:
+          src: files/idempotent.txt
+          dest: /tmp/idempotent.txt
+        tags:
+          - create
+      - name: An idempotent command.
+        lineinfile:
+          dest: /tmp/idempotent.txt
+          regexp: '^(.*)is an(.*)$'
+          backrefs: true
+          line: '\1is really an\2'
+        tags:
+          - create
+      - name: A non-idempotent command.
+        shell: "echo this is a non-idempotent file >> /tmp/non-idempotent.txt"
+        tags:
+          - create
+
+      - name: Remove the files created as part of this task.
+        file:
+          path: '{{ item }}'
+          state: absent
+        with_items:
+          - /tmp/idempotent.txt
+          - /tmp/non-idempotent.txt
+        tags:
+          - delete

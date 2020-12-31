@@ -1,0 +1,11 @@
+# Execute the command: ansible-playbook local.yml
+---
+  - hosts: localhost
+    connection: local
+    vars:
+      packages: [packet-python,netaddr]
+    tasks:
+      - name: install required pyton modules
+        pip:
+          name: '{{packages}}'
+          state: present
