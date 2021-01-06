@@ -1,0 +1,14 @@
+# Verify the connectivity by using  ping module as following: ansible -i inventory/hosts_vm -m ping all
+# A collection of hosts belonging to the 'all' group
+[all]
+web1  ansible_host=rhhost1.localnet.com ansible_connection=ssh
+db1  ansible_host=rhhost2.localnet.com ansible_connection=ssh
+
+# A collection of hosts belonging to the 'webservers' group
+[webservers]
+web1
+
+# A collection of database servers in the 'dbservers' group
+
+[dbservers]
+db1
