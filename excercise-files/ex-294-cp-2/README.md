@@ -95,3 +95,5 @@ https://www.linkedin.com/learning/red-hat-certified-engineer-ex294-cert-prep-3-m
 │       ├── tasks
 │       ├── templates
 │       └── vars
+# Collect the ansible facts using -m setup command.
+  For Example: ansible webservers -m setup -a "filter=*enp0s8"

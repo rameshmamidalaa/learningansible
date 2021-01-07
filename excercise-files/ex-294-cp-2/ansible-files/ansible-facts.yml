@@ -1,0 +1,19 @@
+# Gather the ansible facts. Using this option in playbooks, we can check for the required facts.
+# for example: you can install service if the OS family is REDHAT- ansible_facts['Os family'] == REDHAT
+# To execute the cmd: ansible-playbook -i inventory/hosts_vm ansible-facts.yml
+# It has the MAGIC VARIABLES - These are reserved, cannot be set by the user and there are many magic variables.
+# https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html#magic
+# Most commonly used 'magic' variables are: hostvars, groups, group_names, inventory_hostname
+# For Example: {{ hostvars['rhhost2.localnet.com']['ansible_facts']['distribution'] }}
+# Looping Using Magic vars: Just have look 2-13-template.j2 or the below
+# For Example:
+# {% for host in groups['webservers'] %}
+#  {{ hostvars[host]['ansible_facts']['enp0s8']['ipv4']['address'] }}
+# {% endfor %}
+---
+  - hosts: webservers
+
+    tasks:
+      - name: Ansible facts
+        debug:
+          msg: "{{ ansible_facts['enp0s8']['ipv4']['address'] }}"
