@@ -3,7 +3,7 @@
 # To verify the syntax of the yml: ansible-playbook --syntax-check webservices.yml
 # ansible-lint webservices.yml
 # To execute this playbook: ansible-playbook -i inventory/hosts_vm webservices.yml
-# To verify the playbook: ansible-playbook --check webservices.yml
+# To verify the playbook parsing: ansible-playbook --check webservices.yml
 ---
   - name: Apache server & memcache installed
     hosts: webservers

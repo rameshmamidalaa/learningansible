@@ -64,3 +64,34 @@ https://www.linkedin.com/learning/red-hat-certified-engineer-ex294-cert-prep-3-m
 # Verify playbooks using ansible-lint.
   ansible-lint apache.yml
   ansible-playbook --syntax-check webservices.yml
+  ansible-playbook --check webservices.yml
+# Structure of the project: It's a good time to start planning for the future. To get our Ansible configuration scheme to scale, we need to create a structure that separates group variables, roles, tasks, and templates. This structure will allow us to grow our configuration setup beyond where we are now (simple playbook in one directory).Each directory included must have a main.yml file in it.
+├── apache.yml
+├── group_vars
+├── inventory
+│   └── hosts_vm
+├── roles
+│   ├── common
+│   │   ├── defaults          - Contains defualt variables for the role.
+│   │   ├── files             - Contains files that can be deployed by the role.
+│   │   ├── handlers          - Contains change handlers used by this role.
+│   │   ├── meta              - Contains meta data (role dependencies) for the role.
+│   │   ├── tasks             - Contains the main list of tasks to be executed by the role.
+│   │   ├── templates         - Contains templates for the role.
+│   │   └── vars              - Contains non-defualt variables for the role.
+│   ├── dbservers
+│   │   ├── defaults
+│   │   ├── files
+│   │   ├── handlers
+│   │   ├── meta
+│   │   ├── tasks
+│   │   ├── templates
+│   │   └── vars
+│   └── webservers
+│       ├── defaults
+│       ├── files
+│       ├── handlers
+│       ├── meta
+│       ├── tasks
+│       ├── templates
+│       └── vars

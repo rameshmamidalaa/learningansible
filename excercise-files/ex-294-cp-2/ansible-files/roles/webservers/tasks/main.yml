@@ -1,0 +1,3 @@
+# Using Ansible Dynamic Mode Content
+---
+  - include: install_apache.yml

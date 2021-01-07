@@ -1,0 +1,21 @@
+# Install Apache
+# To execute the cmd: ansible-playbook -i inventory/hosts_vm site.yml
+# Just note that firewalld service is already started as part of common tasks. Please check : /roles/common/tasks/main.yml
+---
+  - name: Install apache
+    yum:
+      name: httpd
+      state: present
+
+  - name: Apache service state
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Add firewall rule for apache
+    firewalld:
+      port: 80/tcp
+      permanent: true
+      state: enabled
+      immediate: yes
