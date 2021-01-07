@@ -6,10 +6,19 @@
     yum:
       name: "{{ item }}"
       state: present
-    loop: "{{ base_packages }}"
+    loop: "{{ base_packages }}"  # For this base_packages, please check the group_vars/all
 
   - name: Start the firewalld service
     service:
       name: firewalld
       state: started
       enabled:  yes
+
+  - name: Add users
+    user:
+      name: "{{ item.name }}"
+      state: present
+      groups: "{{ item.groups }}"
+    loop:
+      - { name: 'webadmin1', groups: 'wheel' }
+      - { name: 'webadmin2', groups: 'apache' }

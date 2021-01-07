@@ -1,0 +1,18 @@
+# Looping with dictionaries.
+# To execute cmd: ansible-playbook -i inventory/hosts_vm loop-dictionary.yml
+---
+  - hosts: all
+    vars:
+      users:
+        mamidala:
+          name: Ramesh Mamidala
+          telephone: 49-123 64268412
+        yama:
+          name: Dharmaraj Yama
+          telephone: 000-000-000000
+    tasks:
+      - name: Print name and telephone number
+        debug:
+          msg: "User {{ item.key }} is {{ item.value.name }} ({{ item.value.telephone }})"
+        loop: "{{ users|dict2items }}"
+        #loop: "{{ lookup('dict', users) }}" #alternate method using lookup
