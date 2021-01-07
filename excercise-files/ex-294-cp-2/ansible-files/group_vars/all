@@ -1,0 +1,6 @@
+---
+# Variables for all the groups.
+base_packages:
+  - python3-libselinux
+  - python3-libsemanage
+  - firewalld

@@ -1,9 +1,12 @@
 # This playbook contains common/base plays for all nodes
+# Looping with lists
+# As it is a common task you can execute this from: ansible-playbook -i inventory/hosts_vm site.yml
 ---
-  - name: Install firewalld
+  - name: Install base packages
     yum:
-      name: firewalld
+      name: "{{ item }}"
       state: present
+    loop: "{{ base_packages }}"
 
   - name: Start the firewalld service
     service:
