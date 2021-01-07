@@ -15,7 +15,7 @@
 
   - name: Add firewall rule for apache
     firewalld:
-      port: 80/tcp
+      port: "{{ httpd_port }}/tcp"
       permanent: true
       state: enabled
       immediate: yes
