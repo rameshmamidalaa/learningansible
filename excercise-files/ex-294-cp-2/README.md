@@ -61,3 +61,6 @@ https://www.linkedin.com/learning/red-hat-certified-engineer-ex294-cert-prep-3-m
   ansible rhhost2* -m setup -a 'gather_subset=!all,!min,hardware filter=ansible_mounts' filter it for more specific information.
 # Dump the information into the specific location.
   ansible rhhost2* -m setup --tree /tmp/facts
+# Verify playbooks using ansible-lint.
+  ansible-lint apache.yml
+  ansible-playbook --syntax-check webservices.yml

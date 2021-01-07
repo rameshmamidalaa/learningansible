@@ -1,0 +1,34 @@
+# Install an apache web server, memcached and start the service.
+# Use the handlers to notify the service using 'Generic Topics'
+# To verify the syntax of the yml: ansible-playbook --syntax-check webservices.yml
+# ansible-lint webservices.yml
+# To execute this playbook: ansible-playbook -i inventory/hosts_vm webservices.yml
+# To verify the playbook: ansible-playbook --check webservices.yml
+---
+  - name: Apache server & memcache installed
+    hosts: webservers
+    become: yes
+    tasks:
+      - name: Latest apache version installed
+        yum:
+          name: httpd
+          state: installed
+      - name: Latest memcache version installed
+        yum:
+          name: memcached
+          state: installed
+      - name: restart a service in case if there is a change
+        command: echo "This task restarts a service in case if there is a change"
+        notify: restarting the changed service
+        changed_when: True
+    handlers:
+      - name: restart apache
+        service:
+          name: httpd
+          state: restarted
+        listen: "restarting the changed service"
+      - name: restart memcached
+        service:
+          name: memcached
+          state: restarted
+        listen: "restarting the changed service"

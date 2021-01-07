@@ -1,15 +1,18 @@
-# Install the nginx web server and start the service.
-# To verify the syntax of the yml: nsible-playbook --syntax-check nginx.yml
+# Install the Apache web server and start the service.
+# To verify the syntax of the yml: ansible-playbook --syntax-check apache.yml
 # To execute this playbook: ansible-playbook -i inventory/hosts_vm apache.yml
 ---
   - name: Apache server installed
-    hosts: all
-    become: yes
+    hosts: webservers
+    vars:
+      http_port: 80
+      max_clients: 200
+    remote_user: root
     tasks:
       - name: Latest apache version installed
         yum:
           name: httpd
-          state: latest
+          state: installed
       - name: Apache enabled and running
         service:
           name: httpd
