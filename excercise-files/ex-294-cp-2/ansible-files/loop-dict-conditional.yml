@@ -1,0 +1,13 @@
+# This example loops through a static list and checks for numbers greater than 5
+# To verify & execute the cmd: ansible-lint loop-dict-conditional.yml
+# ansible-playbook -i inventory/hosts_vm loop-dict-conditional.yml
+---
+  - hosts: all
+    vars:
+      mydict: {"one": 1, "two": 2, "three": 3}
+    tasks:
+      - name: Loop through dictionary with conditional
+        debug:
+          msg: "{{ item.key }}: {{ item.value }}"
+        loop: "{{ query('dict', mydict) }}" # Used the query to convert 'mydict' into list as loop will work with lists.
+        when: item.value > 2
